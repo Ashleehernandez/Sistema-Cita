@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interface\Genery\" />
-    <Folder Include="Interface\Service\" />
-    <Folder Include="Interface\Repository\" />
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\Sistema-Citas.Domain\Sistema-Citas.Domain.csproj" />
   </ItemGroup>
 
 </Project>
