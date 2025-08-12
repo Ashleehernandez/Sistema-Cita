@@ -1,7 +1,6 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Sistema_Citas.Domain.Entity;
+
 
 namespace Sistema_Citas.Intrafestructura.Sistema_Citas_DBContext
 {
