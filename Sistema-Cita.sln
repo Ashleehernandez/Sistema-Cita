@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistema-Citas.Application",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistema-Citas.Domain", "Sistema-Citas.Domain\Sistema-Citas.Domain.csproj", "{96906D6B-1422-4C8A-BA47-C9BB5E88000E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistema-Citas.Intrafestructura", "Sistema-Citas.Intrafestructura\Sistema-Citas.Intrafestructura.csproj", "{503AAEEE-5464-479A-B75E-275B598DD5C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sistema-Citas.Infraestructura", "Sistema-Citas.Intrafestructura\Sistema-Citas.Infraestructura.csproj", "{503AAEEE-5464-479A-B75E-275B598DD5C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
