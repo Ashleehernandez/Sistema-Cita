@@ -27,6 +27,19 @@ namespace Sistema_Citas.Application.Service
                 throw new Exception("An error occurred while retrieving the user by email.", ex);
             }
         }
+
+        public  async Task<Usuario?> GetByEmailyPasswordAsync(string Email, string ContrasenaHash)
+        {
+            try
+            {
+                return await _usuarioRepository.GetByEmailyPasswordAsync(Email, ContrasenaHash);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el usuario por email y contraseña", ex);
+            }
+
+        }
     }
   
     

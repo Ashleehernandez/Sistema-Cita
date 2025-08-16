@@ -28,8 +28,7 @@ namespace Sistema_Citas.Application.Service
                 }
                 // Cambiar el estado de la cita a Cancelada
                 cita.Estado = Estado.Rechazado;
-                // Actualizar la cita en la base de datos
-                await citasRepository.UpdateAsyncc(cita);
+             
                 return cita;
 
             }
@@ -51,8 +50,7 @@ namespace Sistema_Citas.Application.Service
                 }
                 // Cambiar el estado de la cita a Confirmada
                 cita.Estado = Estado.Confirmado;
-                // Actualizar la cita en la base de datos
-                await citasRepository.UpdateAsyncc(cita);
+
                 return cita;
 
             }
@@ -125,8 +123,7 @@ namespace Sistema_Citas.Application.Service
                 }
                 // Cambiar el estado de la cita a Rechazada
                 cita.Estado = Estado.Rechazado;
-                // Actualizar la cita en la base de datos
-                await citasRepository.UpdateAsyncc(cita);
+               
                 return cita;
             }
             catch (Exception ex)

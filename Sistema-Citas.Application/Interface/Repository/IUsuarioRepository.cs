@@ -6,5 +6,6 @@ namespace Sistema_Citas.Application.Interface.Repository
     public interface IUsuarioRepository : IGeneryRepository<Usuario>
     {
         Task<Usuario> GetByEmailAsync(string email);
+        Task<Usuario> GetByEmailyPasswordAsync(string email, string contrasenaHash);
     }
 }

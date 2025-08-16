@@ -4,6 +4,7 @@ namespace Sistema_Citas.Domain.DTo.EstacionDto
 {
     public class GetEstacionDto
     {
+        public int EstacionId { get; set; }
 
         public int Numero { get; set; }
 

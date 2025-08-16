@@ -17,15 +17,16 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas.Repository
 
         public async Task<IEnumerable<Estacion>> GetEstacionesByNombreAsync(string nombre)
         {
+            if(string.IsNullOrWhiteSpace(nombre))
+            {
+                throw new ArgumentException("El nombre de la estación no puede ser nulo o vacío.", nameof(nombre));
+            }
             try
             {
-                if (string.IsNullOrEmpty(nombre))
-                {
-                    throw new ArgumentException("El nombre de la estación no puede ser nulo o vacío.", nameof(nombre));
-                }
-                return await _context.Set<Estacion>()
-                    .Where(e => e.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase))
-                    .ToListAsync();
+               var estacion = await _context.Estacion.ToListAsync();
+
+                return estacion.Where(estacion => estacion.Nombre != null && estacion.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase)).ToList();
+
 
             }
             catch (Exception ex)

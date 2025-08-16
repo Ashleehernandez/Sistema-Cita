@@ -68,31 +68,37 @@ namespace Sistema_Citas.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        [HttpPut("Usuario/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUsuarioDto updateUsuarioDto)
         {
             if (updateUsuarioDto == null)
             {
-                return BadRequest("Usuario data is null.");
+                return BadRequest("Los datos del usuario están vacíos.");
             }
+
             try
             {
                 var existingUsuario = await _usuarioService.GetByIdAsync(id);
                 if (existingUsuario == null)
                 {
-                    return NotFound($"Usuario with ID {id} not found.");
+                    return NotFound($"No se encontró el usuario con ID {id}.");
                 }
-                var usuario = _mapper.Map<Usuario>(updateUsuarioDto);
-                usuario.UsuarioId = id; // Ensure the ID is set correctly
-                await _usuarioService.UpdateAsync(usuario);
+
+                var usuarioActualizado = _mapper.Map<Usuario>(updateUsuarioDto);
+
+                // Validación extra: asegurar que el ID del DTO coincida con el de la URL
+                usuarioActualizado.UsuarioId = id;
+
+                await _usuarioService.UpdateAsync(id, usuarioActualizado);
+
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
             }
         }
+
 
         [HttpDelete("Usuario/{id}")]
         public async Task<IActionResult> Delete(int id)

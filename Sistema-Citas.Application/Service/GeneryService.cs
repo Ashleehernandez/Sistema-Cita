@@ -20,6 +20,7 @@ namespace Sistema_Citas.Application.Service
             try
             {
                 await _repository.AddAsync(entity);
+                
             }
             catch (Exception ex)
             {
@@ -36,7 +37,7 @@ namespace Sistema_Citas.Application.Service
                 {
                     throw new Exception("The entity does not exist in the database.");
                 }
-                return await _repository.Delete(entity);
+                return await _repository.Delete(id);
 
             }
             catch (Exception ex)
@@ -71,11 +72,11 @@ namespace Sistema_Citas.Application.Service
             }
         }
 
-        public async Task<T> UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(int id, T updatedEntity)
         {
             try
             {
-                return await _repository.UpdateAsyncc(entity);
+                return await _repository.UpdateAsyncc(id , updatedEntity);
             }
             catch (Exception ex)
             {

@@ -7,14 +7,15 @@ namespace Sistema_Citas.Application.Service
 {
     public class EstacionService : GeneryService<Estacion>, IEstacionService
     {
-        
-        private readonly IEstacionRepository estscion;
-        public EstacionService(IEstacionRepository Estacionn) : base(Estacionn)
+
+        private readonly IEstacionRepository _estacionRepository;
+
+        // CORREGIDO: Constructor simplificado
+        public EstacionService(IEstacionRepository estacionRepository) : base(estacionRepository)
         {
-           
-            estscion = Estacionn as IEstacionRepository 
-                             ?? throw new ArgumentNullException(nameof(Estacionn), "The service must implement IEstadoService.");
+            _estacionRepository = estacionRepository ?? throw new ArgumentNullException(nameof(estacionRepository));
         }
+
 
         public async Task<IEnumerable<Estacion>> GetEstacionesByNombreAsync(string nombre)
         {
@@ -24,7 +25,7 @@ namespace Sistema_Citas.Application.Service
                 {
                     throw new ArgumentException("El nombre de la estación no puede ser nulo o vacío.", nameof(nombre));
                 }
-               return await estscion.GetEstacionesByNombreAsync(nombre);
+               return await _estacionRepository.GetEstacionesByNombreAsync(nombre);
 
             }
             catch (Exception ex)

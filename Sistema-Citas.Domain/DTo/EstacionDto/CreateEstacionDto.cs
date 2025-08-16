@@ -1,20 +1,23 @@
 ﻿
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Sistema_Citas.Domain.DTo.EstacionDto
 {
     public class CreateEstacionDto
     {
-        
-        public int EstacionId { get; set; }
-
-    
+        [Required]
         public int Numero { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Nombre { get; set; }
 
         public bool Disponible { get; set; } = true;
 
-        public string Turno { get; set; }
-        public DateTime CreateTime { get; set; } = DateTime.Now;
-        }
+        [MaxLength(30)]
+        public string? Turno { get; set; } = "Mañana";
+
+
     }
+}
