@@ -10,9 +10,11 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas.Repository
     public class UsuarioRepository : GeneryRepository<Usuario>, IUsuarioRepository
     {
         private readonly DBContext _context;
+        readonly DbSet<Usuario> _dbSet;
         public UsuarioRepository(DBContext context) : base(context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dbSet = context.Set<Usuario>();
         }
 
         public async Task<Usuario> GetByEmailAsync(string email)
@@ -36,6 +38,25 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas.Repository
             catch (Exception ex)
             {
                 throw new Exception("An error occurred while retrieving the user by email.", ex);
+            }
+
+        }
+
+        public async Task<Usuario?> GetByEmailyPasswordAsync(string email, string contrasenaHash)
+        {
+            try
+            {
+
+                var emailLower = email.ToLowerInvariant();
+
+                return await _context.Set<Usuario>()
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.Email.ToLower() == emailLower
+                                              && u.ContrasenaHash == contrasenaHash);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el usuario por email y contraseña", ex);
             }
 
         }

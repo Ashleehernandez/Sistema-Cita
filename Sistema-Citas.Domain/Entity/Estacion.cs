@@ -14,7 +14,7 @@ namespace Sistema_Citas.Domain.Entity
 
         [Required]
         [MaxLength(50)]
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = "Mañana";
 
         public bool Disponible { get; set; } = true;
 

@@ -7,7 +7,7 @@ namespace Sistema_Citas.Application.Interface.Genery
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
-        Task<T> UpdateAsync(T entity);
+        Task<T> UpdateAsync(int id, T updatedEntity);
         Task<T> DeleteAsync(int id);
     }
    

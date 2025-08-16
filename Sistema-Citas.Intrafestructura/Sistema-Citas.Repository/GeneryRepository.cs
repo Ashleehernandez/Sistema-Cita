@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Sistema_Citas.Application.Interface.Genery;
 using Sistema_Citas.Intrafestructura.Sistema_Citas_DBContext;
 
@@ -17,22 +15,25 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas.Repository
         }
         public async Task AddAsync(T entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
             try
             {
                 await _dbSet.AddAsync(entity);
+
                 await _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while adding the entity.", ex);
+                throw new Exception("No se agrego el usuario", ex);
 
             }
         }
 
-        public async Task<T> Delete(T entity)
+        public async Task<T> Delete(int id)
         {
-            var existingEntity = await _dbSet.FindAsync(entity);
+            var existingEntity = await _dbSet.FindAsync(id);
             if (existingEntity == null)
             {
                 throw new Exception("La entidad no existe en la base de datos");
@@ -40,9 +41,9 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas.Repository
             try
             {
 
-                _dbSet.Remove(entity);
+                _dbSet.Remove(existingEntity);
                 await _context.SaveChangesAsync();
-                return entity;
+                return existingEntity;
 
             }
             catch (Exception ex)
@@ -81,25 +82,23 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas.Repository
             }
         }
 
-        public async Task<T> UpdateAsyncc(T entity)
+        public async Task<T> UpdateAsyncc(int id, T updatedEntity)
         {
             try
             {
-                var existingEntity = await _dbSet.FindAsync(entity);
+                var existingEntity = await _dbSet.FindAsync(id);
                 if (existingEntity == null)
                 {
                     throw new Exception("La entidad no existe en la base de datos");
                 }
-                _context.Entry(existingEntity).CurrentValues.SetValues(entity);
+
+                _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
                 await _context.SaveChangesAsync();
                 return existingEntity;
-
-
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while updating the entity.", ex);
-
+                throw new Exception("Error al actualizar la entidad.", ex);
             }
         }
     }

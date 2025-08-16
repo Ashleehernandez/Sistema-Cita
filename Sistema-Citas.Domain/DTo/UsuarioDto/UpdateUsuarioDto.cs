@@ -2,9 +2,10 @@
 {
     public class UpdateUsuarioDto
     {
-        public string ContrasenaHash { get; set; }
-
         public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Email { get; set; }
+        public string ContrasenaHash { get; set; }
 
         public DateTime? UpdateTime { get; set; }
     }

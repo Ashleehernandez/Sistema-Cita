@@ -10,9 +10,9 @@ namespace Sistema_Citas.Intrafestructura.Sistema_Citas_DBContext
         public DBContext(DbContextOptions<DBContext> options) : base(options)
         {
         }
-          public DbSet<Usuario> Usuarios { get; set; }  
-        public DbSet<Estacion> Estaciones { get; set; }
-        public DbSet<Cita> Citas { get; set; }
+          public DbSet<Usuario> Usuario { get; set; }  
+        public DbSet<Estacion> Estacion { get; set; }
+        public DbSet<Cita> Cita { get; set; }
 
     }
 }

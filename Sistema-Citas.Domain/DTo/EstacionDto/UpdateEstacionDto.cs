@@ -14,7 +14,7 @@ namespace Sistema_Citas.Domain.DTo.EstacionDto
      
         public int Numero { get; set; }
 
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = "Mañana";
 
         public bool Disponible { get; set; } = true;
 

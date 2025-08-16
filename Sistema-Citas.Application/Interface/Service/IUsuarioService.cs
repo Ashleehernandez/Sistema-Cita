@@ -8,5 +8,6 @@ namespace Sistema_Citas.Application.Interface.Service
     public  interface IUsuarioService : IGeneryService<Usuario>
     {
         Task<Usuario> GetByEmailAsync(string email);
+        Task<Usuario> GetByEmailyPasswordAsync(string Email, string ContrasenaHash);
     }
 }
