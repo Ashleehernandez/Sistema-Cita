@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Estaciones</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .menu-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(145deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-btn.view { background: linear-gradient(145deg, #4ecdc4, #44a08d); }
+        .menu-btn.create { background: linear-gradient(145deg, #a8e6cf, #7fcdcd); }
+        .menu-btn.update { background: linear-gradient(145deg, #ffd93d, #ff9f43); }
+        .menu-btn.delete { background: linear-gradient(145deg, #ff6b6b, #ee5a52); }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+            margin-left: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-disponible {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-ocupada {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            margin: 2px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 25px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚉 Sistema de Gestión de Citas</h1>
+            <p class="subtitle">Administrador </p>
+        </header>
+
+        <div class="menu-container">
+            <div class="menu-buttons">
+                <button class="menu-btn view" onclick="showSection('view')">
+                    📋 Ver Estaciones
+                </button>
+                <button class="menu-btn create" onclick="showSection('create')">
+                    ➕ Crear Estación
+                </button>
+                <button class="menu-btn update" onclick="showSection('update')">
+                    ✏️ Actualizar Estación
+                </button>
+                <button class="menu-btn delete" onclick="showSection('delete')">
+                    🗑️ Eliminar Estación
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección Ver Estaciones -->
+        <div id="view-section" class="content-section active">
+            <h2>📋 Listado de Estaciones</h2>
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar estación por nombre..." onkeyup="searchEstaciones()">
+            </div>
+            <div id="loading-view" class="loading" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+            <div class="table-container">
+                <table id="estacionesTable">
+                    <thead>
+                        <tr>
+                            <th>Número</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>Turno</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="estacionesTableBody">
+                        <!-- Datos se cargan dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección Crear Estación -->
+        <div id="create-section" class="content-section">
+            <h2>➕ Crear Nueva Estación</h2>
+            <form id="createForm" onsubmit="createEstacion(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="createNumero">Número de Estación *</label>
+                        <input type="number" id="createNumero" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createNombre">Nombre de Estación *</label>
+                        <input type="text" id="createNombre" maxlength="50" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="createTurno">Turno</label>
+                        <select id="createTurno">
+                            <option value="Mañana">Mañana</option>
+                            <option value="Tarde">Tarde</option>
+                            <option value="Noche">Noche</option>
+                            <option value="24 Horas">24 Horas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="createDisponible" checked>
+                            Estación Disponible
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Crear Estación</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm('createForm')">Limpiar</button>
+            </form>
+        </div>
+
+        <!-- Sección Actualizar Estación -->
+        <div id="update-section" class="content-section">
+            <h2>✏️ Actualizar Estación</h2>
+            <div class="search-container">
+                <input type="text" id="updateSearchInput" class="search-input" placeholder="🔍 Buscar estación para actualizar..." onkeyup="searchForUpdate()">
+            </div>
+            <form id="updateForm" onsubmit="updateEstacion(event)" style="display: none;">
+                <input type="hidden" id="updateId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="updateNumero">Número de Estación</label>
+                        <input type="number" id="updateNumero" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateNombre">Nombre de Estación</label>
+                        <input type="text" id="updateNombre" maxlength="50" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="updateTurno">Turno</label>
+                        <select id="updateTurno">
+                            <option value="Mañana">Mañana</option>
+                            <option value="Tarde">Tarde</option>
+                            <option value="Noche">Noche</option>
+                            <option value="24 Horas">24 Horas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="updateDisponible">
+                            Estación Disponible
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Actualizar Estación</button>
+                <button type="button" class="btn btn-secondary" onclick="cancelUpdate()">Cancelar</button>
+            </form>
+            <div id="updateSearchResults"></div>
+        </div>
+
+        <!-- Sección Eliminar Estación -->
+        <div id="delete-section" class="content-section">
+            <h2>🗑️ Eliminar Estación</h2>
+            <div class="search-container">
+                <input type="text" id="deleteSearchInput" class="search-input" placeholder="🔍 Buscar estación para eliminar..." onkeyup="searchForDelete()">
+            </div>
+            <div id="deleteSearchResults"></div>
+        </div>
+         <div id="alertContainer">
+  <div class="alert alert-error">❌ El nombre de la estación es requerido</div>
+</div>
+
+    </div>
+
+    <script src="js/estaciones.js"></script>
+</body>
+</html>

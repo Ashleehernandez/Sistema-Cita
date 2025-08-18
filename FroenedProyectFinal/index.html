@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Proyecto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        .team-section {
+            margin: 30px 0;
+        }
+
+        .team-member {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.6);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            box-shadow: 0 5px 15px rgba(252, 182, 159, 0.4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 25px rgba(252, 182, 159, 0.6);
+        }
+
+        .link-btn {
+            background: none;
+            color: #667eea;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 15px;
+        }
+
+        .link-btn:hover {
+            color: #764ba2;
+        }
+
+        .form-container {
+            max-width: 600px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .team-member {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+        .hidden {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Página de Inicio -->
+        <div class="page active" id="index">
+            <h1>🚀 Mi Proyecto</h1>
+            
+            <div class="team-section">
+                <h2>Equipo de Desarrollo</h2>
+                <div class="team-member">👨‍💻 Ashlee Estefani - Full Stack Developer</div>
+                <div class="team-member">👩‍💻 Ashlee Estefani - Frontend Developer</div>
+                <div class="team-member">👨‍💻 Matricula -  2024-0168</div>
+               
+            </div>
+
+            <p style="color: #666; margin: 30px 0; font-size: 18px;">
+                Bienvenido a nuestro proyecto. Un sistema completo desarrollado con las mejores tecnologías.
+            </p>
+
+            <button class="btn" onclick="showPage('register')">
+                📝 Registrarse
+            </button>
+            <button class="btn btn-secondary" onclick="showPage('login')">
+                🔐 Iniciar Sesión
+            </button>
+        </div>
+
+        <!-- Página de Registro -->()
+        <div class="page" id="register">
+            <h2>📝 Registro de Usuario</h2>
+            
+            <form class="form-container" id="registerForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="apellido">Apellido *</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contrasena">Contraseña *</label>
+                    <input type="password" id="contrasena" name="contrasena" required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmarContrasena">Confirmar Contraseña *</label>
+                    <input type="password" id="confirmarContrasena" name="confirmarContrasena" required minlength="6">
+                </div>
+ 
+                <div class="form-group">
+                    <label for="rol">Rol</label>
+                    <select id="rol" name="rol">
+                        <option value="Usuario" selected>Usuario</option>
+                        <option value="Admin">Administrador</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">
+                    ✅ Registrar Usuario
+                </button>
+                <div id="registro-exitoso" style="display: none; color: green; font-weight: bold;"></div>
+
+
+                
+                <button type="button" class="link-btn" onclick="showPage('index')">
+                    ← Volver al inicio
+                </button>
+                
+                <button type="button" class="link-btn" onclick="showPage('login')">
+                    ¿Ya tienes cuenta? Inicia sesión
+                </button>
+            </form>
+        </div>
+
+        <!-- Página de Login -->
+        <div class="page" id="login">
+            <h2>🔐 Iniciar Sesión</h2>
+            
+            <form class="form-container" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email *</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginContrasena">Contraseña *</label>
+                    <input type="password" id="loginContrasena" name="contrasena" required>
+                </div>
+
+                <button type="submit" class="btn">
+                    🚪 Iniciar Sesión
+                </button>
+                
+                <button type="button" class="link-btn" onclick="showPage('index')">
+                    ← Volver al inicio
+                </button>
+                
+                <button type="button" class="link-btn" onclick="showPage('register')">
+                    ¿No tienes cuenta? Regístrate
+                </button>
+               
+
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript externo -->
+    <script src="js/app.js"></script>
+</body>
+</html>
